@@ -104,7 +104,6 @@ def experiment(days, total_assets, init_invest_ratio, win_ratio, lose_ratio, buy
 # 跌價買進張數: 0.5~5 一次0.5
 param_to_assets = []
 best_param = [0, 0, 0, 0, 0]
-count = 0
 for init_invest_ratio in np.arange(0.01, 0.31, 0.03):
     round(init_invest_ratio, 2)
     for win_ratio in np.arange(0.01, 0.51, 0.025):
@@ -118,10 +117,6 @@ for init_invest_ratio in np.arange(0.01, 0.31, 0.03):
                 # print(param_to_assets[-1])
                 if final_assets > best_param[0]:
                     best_param = param_to_assets[-1]
-                count += 1
-                if(count == 10000):
-                    exit(0)
 
 print("best param : ", best_param)
-
 
