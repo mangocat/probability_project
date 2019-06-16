@@ -91,10 +91,10 @@ def experiment(days, total_assets, init_invest_ratio, win_ratio, lose_ratio, buy
         # print(remain_money/param["total_assets"])
         final_assets += remain_money
     final_assets /= float(n)
+    # plt.show()
     return final_assets
     # print(remain_money)
     # plt.plot(remain_money_list)
-    # plt.show()
 
 # parameters
 # 各參數range
@@ -104,15 +104,23 @@ def experiment(days, total_assets, init_invest_ratio, win_ratio, lose_ratio, buy
 # 跌價買進張數: 0.5~5 一次0.5
 param_to_assets = []
 best_param = [0, 0, 0, 0, 0]
-for init_invest_ratio in np.arange(0.01, 0.31, 0.01):
-    for win_ratio in np.arange(0.01, 0.51, 0.01):
-        for lose_ratio in np.arange(0.01, 0.51, 0.01):
+count = 0
+for init_invest_ratio in np.arange(0.01, 0.31, 0.03):
+    round(init_invest_ratio, 2)
+    for win_ratio in np.arange(0.01, 0.51, 0.025):
+        round(win_ratio, 3)
+        for lose_ratio in np.arange(0.01, 0.51, 0.025):
+            round(lose_ratio, 3)
             for buy_ratio in np.arange(0.5, 5.5, 0.5):
+                round(buy_ratio, 1)
                 final_assets = experiment(300, 1e8, init_invest_ratio, win_ratio, lose_ratio, buy_ratio)
                 param_to_assets.append([final_assets, init_invest_ratio, win_ratio, lose_ratio, buy_ratio])
-                print(param_to_assets[-1])
+                # print(param_to_assets[-1])
                 if final_assets > best_param[0]:
                     best_param = param_to_assets[-1]
+                count += 1
+                if(count == 10000):
+                    exit(0)
 
 print("best param : ", best_param)
 
