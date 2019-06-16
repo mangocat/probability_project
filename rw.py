@@ -43,6 +43,7 @@ for times in range(n):
         for i in range(len(stock_price)):
             positions[i].append(positions[i][-1] + rate*(rr[i][day]-0.5))
         # plotting down the graph of the random walk in 1D
+    for i in range(len(stock_price)):
         plt.plot(positions[i])
 
 plt.show()
