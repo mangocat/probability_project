@@ -26,14 +26,15 @@ budget = param["total_assets"]*param["init_invest_ratio"]
 
 def buy(remain_money, current_price, avg_price, current_stock_num, lose_ratio, buy_ratio):
     want_to_buy = math.ceil(((avg_price-current_price)/avg_price//lose_ratio)*buy_ratio*current_stock_num)
-    can_buy = remain_money//current_price
-    if (want_to_buy <= can_buy ):
+    can_buy = remain_money//(current_price*1000)
+    if (want_to_buy <= can_buy):
         return want_to_buy
     # else
     return can_buy
 
 
 for times in range(n):
+    remain_money_list = []
     stock_price = []
     stock_num = []
     current_price = []
@@ -61,25 +62,25 @@ for times in range(n):
             if stock_num[i]==0: # sold
                 continue
             current_price[i].append(current_price[i][-1] + rate*(rr[i][day]-0.5))
-            if (current_price[i]<stock_price[i]*(1-param["lose_ratio"])):
+            if (current_price[i][day]<stock_price[i]*(1-param["lose_ratio"])):
                 # buy
-                buy_num = buy(remain_money, current_price[i], stock_price[i], stock_num[i], param["lose_ratio"], param["buy_ratio"])
-                remain_money -= buy_num*current_price[i]
-                stock_price[i] = (stock_price[i]*stock_num[i] + buy_num*current_price[i])/(stock_num[i] + buy_num)
+                buy_num = buy(remain_money, current_price[i][day], stock_price[i], stock_num[i], param["lose_ratio"], param["buy_ratio"])
+                remain_money -= buy_num*current_price[i][day]*1000
+                stock_price[i] = (stock_price[i]*stock_num[i] + buy_num*current_price[i][day])/(stock_num[i] + buy_num)
                 stock_num[i] += buy_num
-            elif (current_price[i]>stock_price[i]*(1+param["win_ratio"])):
+            elif (current_price[i][day]>stock_price[i]*(1+param["win_ratio"])):
                 # sell
-                remain_money += current_price[i]*stock_num[i]
+                remain_money += current_price[i][day]*stock_num[i]*1000
                 stock_num[i] = 0
-        # plot remain money
-        plt.plot(day, remain_money)
+        remain_money_list.append(remain_money)
+        print(remain_money)
 
-    
     for i in range(stock_count):
         # sell everything
-        remain_money += current_price[i]*stock_num[i]
+        remain_money += current_price[i][-1]*stock_num[i]*1000
         stock_num[i] = 0
         # plotting down the graph of the random walk in 1D
         # plt.plot(current_price[i])
 
+plt.plot(remain_money_list)
 plt.show()
