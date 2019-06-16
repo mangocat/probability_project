@@ -13,9 +13,9 @@ n = 1
 # parameters
 param = {"days":300, "total_assets":1e8, "init_invest_ratio":0.01, "win_ratio":0.01, "lose_ratio":0.01, "buy_ratio":0.5}
 # stock variety
-stock_average = 48
+stock_average = 48 # tw stock average
 
-rate = 5
+rate = 5 # raise/fall rate
 budget = param["total_assets"]*param["init_invest_ratio"]
 
 for times in range(n):
@@ -36,23 +36,13 @@ for times in range(n):
 
     remain_money = param["total_assets"] - invested_money
     # creating the random points
-    rr = []
-    downp = []
-    upp = []
-    this_time = 0
+    rr = [] # random things
     for i in range(len(stock_price)):
         rr.append(np.random.random(param["days"]))
-        # downp.append(rr[i] < prob)
-        # upp.append(rr[i] > prob)
-        # for idownp, iupp in zip(downp[i], upp[i]):
-        for day in rr[i]:
-            # down = rate*(idownp and positions[-1] > 0)
-            # up = rate*iupp #and positions[-1] < 4
-            positions[i].append(positions[i][-1] + rate*(day-0.5))
-
+    for day in range(param["days"]):
+        for i in range(len(stock_price)):
+            positions[i].append(positions[i][-1] + rate*(rr[i][day]-0.5))
         # plotting down the graph of the random walk in 1D
-        this_time += positions[i][-1] - positions[i][1]
-        # print(positions[i][-1] - positions[i][1])
-        # plt.plot(positions[i])
+        plt.plot(positions[i])
 
-# plt.show()
+plt.show()
