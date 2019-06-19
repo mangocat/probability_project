@@ -1,1 +1,1 @@
-# probibility_project
+# probability_project
