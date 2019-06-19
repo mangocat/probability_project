@@ -1,3 +1,4 @@
+# 檢查缺了哪些股票資料
 import csv
 import time
 import sys

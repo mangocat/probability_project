@@ -1,3 +1,4 @@
+# 檔案呼叫順序 get_tw_stock.py --> get_a_year.py --> get_one_stock
 import csv
 import time
 import sys
